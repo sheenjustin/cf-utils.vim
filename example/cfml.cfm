@@ -46,7 +46,9 @@
 <cfoutput> 
     #cfhttp.fileContent# 
 </cfoutput>
-
+<cfquery>
+	select * from schema.tbl where tbl.column = 'asdf'
+</cfquery>
 <cfscript>
     param name="paramname" default="value" min="minvalue" max="maxvalue" pattern="pattern" 
 </cfscript>

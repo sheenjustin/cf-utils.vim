@@ -222,7 +222,8 @@ syn keyword cfArg       contained update uploadButtonLabel validateparam where x
 syn keyword cfArg       contained autoIndex consumes httpMethod indexable
 syn keyword cfArg       contained indexLanguage produces rest restPath wsVersion
 " ColdFusion 11
-syn keyword cfArg       contained conformance pageHeight saveAsName isBase64 showonprint evalAtPrint opacity image
+syn keyword cfArg       contained conformance evalAtPrint image isBase64 opacity pageHeight saveAsName showonprint
+" ColdFusion 2021
 
 
 " Functions.
@@ -342,20 +343,20 @@ syn keyword	cfFunctionName		contained invokecfclientfunction issafehtml isvalido
 syn keyword	cfFunctionName		contained queryexecute querygetrow serialize serializexml spreadsheetaddautofilter spreadsheetaddpagebreaks
 syn keyword	cfFunctionName		contained structmap structreduce
 "ColdFusion 2021:
-syn keyword	cfFunctionName		contained arraypop arraypush arrayreduceright arrayshift arrayunshift listreduceright
-syn keyword	cfFunctionName		contained generatebcrypthash generatescrypthash verifybcrypthash verifyscrypthash 
-syn keyword	cfFunctionName		contained stringeach stringevery stringfilter stringmap stringreduce stringreduceright stringsome stringsort 
-syn keyword	cfFunctionName		contained structiscasesensitive 
+syn keyword	cfFunctionName		contained arraypop arraypush arrayreduceright arrayshift arrayunshift containsNoCase cleartimezone
+syn keyword	cfFunctionName		contained generatebcrypthash generatescrypthash gettimezone listreducerightsettimezone stringeach
+syn keyword	cfFunctionName		contained stringeverystringfilter stringmap stringreduce stringreduceright stringsome stringsort
+syn keyword	cfFunctionName		contained structiscasesensitive tojson verifybcrypthash verifyscrypthash 
 
 " Deprecated or obsoleted tags and functions.
-syn keyword cfDeprecatedTag     contained cfauthenticate cfimpersonate cfgraph cfgraphdata
-syn keyword cfDeprecatedTag     contained cfservlet cfservletparam cftextinput
+syn keyword cfDeprecatedTag     contained cfapplet cfauthenticate cfimpersonate cfgraph cfgraphdata cfmediaplayer cfreport
+syn keyword cfDeprecatedTag     contained cfservlet cfservletparam cfsprydataset cftable cftextinput cftree 
 syn keyword cfDeprecatedTag     contained cfinternaladminsecurity cfnewinternaladminsecurity
 syn keyword cfDeprecatedFunction    contained GetK2ServerDocCount GetK2ServerDocCountLimit GetMetricData GetTemplatePath
 syn keyword cfDeprecatedFunction    contained IsK2ServerABroker IsK2ServerDocCountExceeded IsK2ServerOnline
 syn keyword cfDeprecatedFunction    contained ParameterExists AuthenticatedContext AuthenticatedUser
 syn keyword cfDeprecatedFunction    contained isAuthenticated isAuthorized isProtected SetLocale
-syn keyword cfDeprecatedArg     contained imgStyle grooveColor refreshLabel tickmarklabels tickmarkmajor tickmarkminor tickmarkimages
+syn keyword cfDeprecatedArg     contained docBoost fieldBoost imgStyle grooveColor refreshLabel tickmarklabels tickmarkmajor tickmarkminor tickmarkimages 
 
 " Add to the HTML clusters.
 syn cluster	htmlTagNameCluster	add=cfTagName,cfCustomTagName,cfDeprecatedTag
@@ -366,10 +367,10 @@ syn cluster	cfExpressionCluster	contains=cfFunctionName,cfScope,@cfOperatorClust
 
 " Evaluation; skip strings ( this helps with cases like nested IIf() )
 "		containedin to add to the TOP of cfOutputRegion.
-"syn match    cfHashRegion    "L\=#[^#]\+#" contained containedin=cfOutputRegion,cfHash contains=@cfExpressionCluster,htmlString
+"syn match    cfHashRegion    "L\=#[^#]\+#" contained containedin=cfOutputRegion,cfSetRegion,cfString contains=@cfExpressionCluster,cfScriptParenError
 " Test: Which is better?
-syn region	cfHashRegion		start=+#+ skip=+"[^"]*"\|'[^']*'+ end=+#+ contained containedin=cfOutputRegion,cfSetRegion,cfString contains=@cfExpressionCluster,cfScriptParenError
 syn match	cfHash				contained '#'
+syn region	cfHashRegion		start="#" end="#" contained containedin=cfOutputRegion,cfSetRegion,cfString contains=@cfExpressionCluster,cfScriptParenError
 
 " Hashmarks are significant inside cfoutput tags.
 " cfoutput tags may be nested indefinitely.
@@ -391,8 +392,8 @@ syn region  cfString  contained start=+'+ skip=+\\'+ end=+'+ containedin=cfSetRe
 
 " CFscript 
 syn include @cfscript syntax/cfscript.vim
-syn region cfScriptBlock start="<cfscript>" end="</cfscript>" contains=@cfscript
-syn region	cfscriptTag	contained start='<cfscript' end='>' keepend contains=cfTagName,htmlTag
+syn region	cfscriptTag		start=+<cfscript+			end=+>+					keepend	contained		contains=cfTagName,htmlTag
+syn region	cfscriptBlock	start=+<cfscript\_[^>]*>+	end=+</cfscript>+me=s-1	keepend	matchgroup=NONE	contains=@cfscript,cfComment,cfHashRegion,@htmlTagNameCluster
 
 " CFML
 syn cluster	cfmlCluster	contains=cfComment,@htmlTagNameCluster,@htmlPreproc,cfSetRegion,cfscriptBlock,cfOutputRegion
@@ -436,13 +437,9 @@ CfHiLink cfComment		Comment
 CfHiLink cfCommentTodo		Todo
 CfHiLink cfOperator		Operator
 CfHiLink cfOperatorMatch	Operator
-CfHiLink cfScope		Type
 CfHiLink cfHashRegion		Special
-CfHiLink cfHash		Special
 CfHiLink cfBool			Constant
 
-CfHiLink cfscriptBlock		Special
-CfHiLink cfscriptTag		htmlTag
 CfHiLink cfSetRegion		Normal
 CfHiLink cfSetLHSRegion		htmlTag
 CfHiLink cfSetTagEnd		htmlTag
