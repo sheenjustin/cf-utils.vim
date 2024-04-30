@@ -364,7 +364,7 @@ syn region	cfOutputRegion		matchgroup=NONE transparent start=+<cfoutput>+ end=+<
 
 " <cfset>, <cfif>, <cfelseif>, <cfreturn> are analogous to hashmarks (implicit
 " evaluation) and have 'var'
-syn region	cfSetRegion		start="<cfset\>" start="<cfreturn\>" start="<cfelseif\>" start="<cfif\>" end='>' keepend contains=@cfExpressionCluster,cfSetLHSRegion,cfSetTagEnd
+syn region	cfSetRegion		start="<cfset\>" start="<cfreturn\>" start="<cfelseif\>" start="<cfif\>" end='>' keepend contains=@cfExpressionCluster,cfSetLHSRegion,cfSetTagEnd,cfString
 syn region	cfSetLHSRegion		contained start="<cfreturn" start="<cfelseif" start="<cfif" start="<cfset" end="." keepend contains=cfTagName,htmlTag
 syn match	cfSetTagEnd		contained '>'
 
@@ -391,6 +391,9 @@ endif
 
 syn region	cfqueryTag	contained start=+<cfquery+ end=+>+ keepend contains=cfTagName,htmlTag
 syn region	cfSqlregion	start=+<cfquery\_[^>]*>+ keepend end=+</cfquery>+me=s-1 matchgroup=NONE contains=@cfSql,cfComment,@htmlTagNameCluster,cfqueryTag,cfHashRegion
+
+syn region  cfString  contained start=+"+ skip=+\\"+ end=+"+ contains=cfHashRegion
+syn region  cfString  contained start=+'+ skip=+\\'+ end=+'+ contains=cfHashRegion
 
 " Define the highlighting.
 command -nargs=+ CfHiLink hi def link <args>
