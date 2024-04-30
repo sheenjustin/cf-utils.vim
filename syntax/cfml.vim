@@ -42,6 +42,7 @@ syn keyword cfBool  contained yes no true false
 " ColdFusion <=7:
 syn keyword cfOperator      contained xor eqv and or lt le lte gt ge gte equal eq neq not is mod contains
 syn match   cfOperatorMatch contained "+"
+syn match   cfOperatorMatch contained "="
 syn match   cfOperatorMatch contained "\-"
 syn match   cfOperatorMatch contained "[\*\/\\\^\&][\+\-\*\/\\\^\&]\@!"
 syn match   cfOperatorMatch contained "\<\(not\_s\+\)\?equal\>"
@@ -98,6 +99,9 @@ syn keyword cfTagName   contained cfmapitem cfmediaplayer cfmessagebox cfprogres
 syn keyword cfTagName   contained cfsharepoint cfspreadsheet
 " ColdFusion 10:
 syn keyword cfTagName   contained cfexchangeconversation cfexchangefolder cfwebsocket
+" ColdFusion 11:
+syn keyword cfTagName   contained cfclient cfclientsettings cfhtmltopdf cfhtmltopdfitem
+syn keyword cfTagName   contained cfimapfilter cfoauth cf_socialplugin
 
 " Tag attributes.
 " <= ColdFusion MX 7
@@ -217,7 +221,8 @@ syn keyword cfArg       contained update uploadButtonLabel validateparam where x
 " ColdFusion 10
 syn keyword cfArg       contained autoIndex consumes httpMethod indexable
 syn keyword cfArg       contained indexLanguage produces rest restPath wsVersion
-
+" ColdFusion 11
+syn keyword cfArg       contained conformance pageHeight saveAsName isBase64 showonprint evalAtPrint opacity image
 
 
 " Functions.
@@ -330,7 +335,17 @@ syn keyword	cfFunctionName		contained EncodeForJavaScript sessionGetMetaData Ses
 syn keyword	cfFunctionName		contained WsGetSubscribers EncodeForURL EncodeForXML FileUploadAll FileGetMimeType GetApplicationMetadata
 syn keyword	cfFunctionName		contained GetCPUUsage WsPublish WSSendMessage GetTotalSpace GetSystemFreeMemory GetSystemTotalMemory
 syn keyword	cfFunctionName		contained HMac ImageCreateCaptcha ImageMakeColorTransparent
-
+"ColdFusion 11:
+syn keyword	cfFunctionName		contained arraymap arrayreduce candeserialize canserialize deserialize deserializexml encodeforxmlattribute
+syn keyword	cfFunctionName		contained encodeforxpath generatepbkdfkey getsafehtml imagegetmetadata invalidateoauthaccesstoken
+syn keyword	cfFunctionName		contained invokecfclientfunction issafehtml isvalidoauthaccesstoken listeach listmap listreduce
+syn keyword	cfFunctionName		contained queryexecute querygetrow serialize serializexml spreadsheetaddautofilter spreadsheetaddpagebreaks
+syn keyword	cfFunctionName		contained structmap structreduce
+"ColdFusion 2021:
+syn keyword	cfFunctionName		contained arraypop arraypush arrayreduceright arrayshift arrayunshift listreduceright
+syn keyword	cfFunctionName		contained generatebcrypthash generatescrypthash verifybcrypthash verifyscrypthash 
+syn keyword	cfFunctionName		contained stringeach stringevery stringfilter stringmap stringreduce stringreduceright stringsome stringsort 
+syn keyword	cfFunctionName		contained structiscasesensitive 
 
 " Deprecated or obsoleted tags and functions.
 syn keyword cfDeprecatedTag     contained cfauthenticate cfimpersonate cfgraph cfgraphdata
@@ -345,18 +360,16 @@ syn keyword cfDeprecatedArg     contained imgStyle grooveColor refreshLabel tick
 " Add to the HTML clusters.
 syn cluster	htmlTagNameCluster	add=cfTagName,cfCustomTagName,cfDeprecatedTag
 syn cluster	htmlArgCluster		add=cfArg,cfHashRegion,cfScope,cfDeprecatedArg
-syn cluster	htmlPreproc		add=cfHashRegion
+syn cluster	htmlPreproc			add=cfHashRegion
 
 syn cluster	cfExpressionCluster	contains=cfFunctionName,cfScope,@cfOperatorCluster,cfBool,cfComment
 
 " Evaluation; skip strings ( this helps with cases like nested IIf() )
 "		containedin to add to the TOP of cfOutputRegion.
 "syn match    cfHashRegion    "L\=#[^#]\+#" contained containedin=cfOutputRegion,cfHash contains=@cfExpressionCluster,htmlString
-syn match    cfHash          "#" contained contains=cfHashRegion
 " Test: Which is better?
-syn region	cfHashRegion		start=+#+ skip=+"[^"]*"\|'[^']*'+ end=+#+ contained containedin=cfOutputRegion contains=@cfExpressionCluster,cfScriptParenError
-
-
+syn region	cfHashRegion		start=+#+ skip=+"[^"]*"\|'[^']*'+ end=+#+ contained containedin=cfOutputRegion,cfSetRegion,cfString contains=@cfExpressionCluster,cfScriptParenError
+syn match	cfHash				contained '#'
 
 " Hashmarks are significant inside cfoutput tags.
 " cfoutput tags may be nested indefinitely.
@@ -372,6 +385,9 @@ syn match	cfSetTagEnd		contained '/>'
 " CF comments: similar to SGML comments, but can be nested.  
 syn region	cfComment		start='<!---' end='--->' contains=cfCommentTodo,cfComment
 syn keyword	cfCommentTodo		contained TODO FIXME XXX TBD WTF 
+
+syn region  cfString  contained start=+"+ skip=+\\"+ end=+"+ containedin=cfSetRegion contains=cfHashRegion
+syn region  cfString  contained start=+'+ skip=+\\'+ end=+'+ containedin=cfSetRegion contains=cfHashRegion
 
 " CFscript 
 syn include @cfscript syntax/cfscript.vim
@@ -393,9 +409,6 @@ endif
 syn region	cfqueryTag	contained start=+<cfquery+ end=+>+ keepend contains=cfTagName,htmlTag
 syn region	cfSqlregion	start=+<cfquery\_[^>]*>+ keepend end=+</cfquery>+me=s-1 matchgroup=NONE contains=@cfSql,cfComment,@htmlTagNameCluster,cfqueryTag,cfHashRegion
 
-syn region  cfString  contained start=+"+ skip=+\\"+ end=+"+ contains=cfHashRegion
-syn region  cfString  contained start=+'+ skip=+\\'+ end=+'+ contains=cfHashRegion
-
 " Define the highlighting.
 command -nargs=+ CfHiLink hi def link <args>
 
@@ -414,17 +427,18 @@ if exists("d_noinclude_html")
     CfHiLink htmlError		Error
 endif
 
-CfHiLink cfTagName		cfTagName
+CfHiLink cfTagName		htmlTagName
 CfHiLink cfCustomTagName	cfTagName
 CfHiLink cfArg			Type
 CfHiLink cfFunctionName		Function
-CfHiLink cfHashRegion		Special
-CfHiLink cfHash             PreProc
+
 CfHiLink cfComment		Comment
 CfHiLink cfCommentTodo		Todo
 CfHiLink cfOperator		Operator
 CfHiLink cfOperatorMatch	Operator
 CfHiLink cfScope		Type
+CfHiLink cfHashRegion		Special
+CfHiLink cfHash		Special
 CfHiLink cfBool			Constant
 
 CfHiLink cfscriptBlock		Special
@@ -432,13 +446,12 @@ CfHiLink cfscriptTag		htmlTag
 CfHiLink cfSetRegion		Normal
 CfHiLink cfSetLHSRegion		htmlTag
 CfHiLink cfSetTagEnd		htmlTag
-CfHiLink cfString           String
+CfHiLink cfString			String
 
 CfHiLink cfDeprecatedTag	Error
 CfHiLink cfDeprecatedFunction	Error
 
 CfHiLink cfqueryTag		htmlTag
-
 delcommand CfHiLink
 
 if !exists('b:current_syntax')
