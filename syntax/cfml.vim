@@ -351,10 +351,10 @@ syn cluster	cfExpressionCluster	contains=cfFunctionName,cfScope,@cfOperatorClust
 
 " Evaluation; skip strings ( this helps with cases like nested IIf() )
 "		containedin to add to the TOP of cfOutputRegion.
-syn match    cfHashRegion    "L\=#[^#]\+#" contained containedin=cfOutputRegion,cfHash contains=@cfExpressionCluster,htmlString
+"syn match    cfHashRegion    "L\=#[^#]\+#" contained containedin=cfOutputRegion,cfHash contains=@cfExpressionCluster,htmlString
 syn match    cfHash          "#" contained contains=cfHashRegion
 " Test: Which is better?
-" syn region	cfHashRegion		start=+#+ skip=+"[^"]*"\|'[^']*'+ end=+#+ contained containedin=cfOutputRegion contains=@cfExpressionCluster,cfScriptParenError
+syn region	cfHashRegion		start=+#+ skip=+"[^"]*"\|'[^']*'+ end=+#+ contained containedin=cfOutputRegion contains=@cfExpressionCluster,cfScriptParenError
 
 
 
@@ -369,7 +369,7 @@ syn region	cfSetLHSRegion		contained start="<cfreturn" start="<cfelseif" start="
 syn match	cfSetTagEnd		contained '>'
 syn match	cfSetTagEnd		contained '/>'
 
-" CF comments: similar to SGML comments, but can be nested.
+" CF comments: similar to SGML comments, but can be nested.  
 syn region	cfComment		start='<!---' end='--->' contains=cfCommentTodo,cfComment
 syn keyword	cfCommentTodo		contained TODO FIXME XXX TBD WTF 
 
