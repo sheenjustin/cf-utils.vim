@@ -413,23 +413,25 @@ if exists("d_noinclude_html")
     CfHiLink htmlError		Error
 endif
 
-CfHiLink cfTagName		Statement
-CfHiLink cfCustomTagName	Statement
+CfHiLink cfTagName		cfTagName
+CfHiLink cfCustomTagName	cfTagName
 CfHiLink cfArg			Type
 CfHiLink cfFunctionName		Function
 CfHiLink cfHashRegion		PreProc
+CfHiLink cfHash             Special
 CfHiLink cfComment		Comment
 CfHiLink cfCommentTodo		Todo
 CfHiLink cfOperator		Operator
 CfHiLink cfOperatorMatch	Operator
-CfHiLink cfScope		Title
+CfHiLink cfScope		Type
 CfHiLink cfBool			Constant
 
 CfHiLink cfscriptBlock		Special
 CfHiLink cfscriptTag		htmlTag
-CfHiLink cfSetRegion		PreProc
+CfHiLink cfSetRegion		Normal
 CfHiLink cfSetLHSRegion		htmlTag
 CfHiLink cfSetTagEnd		htmlTag
+CfHiLink cfString           String
 
 CfHiLink cfDeprecatedTag	Error
 CfHiLink cfDeprecatedFunction	Error
