@@ -367,6 +367,7 @@ syn region	cfOutputRegion		matchgroup=NONE transparent start=+<cfoutput>+ end=+<
 syn region	cfSetRegion		start="<cfset\>" start="<cfreturn\>" start="<cfelseif\>" start="<cfif\>" end='>' keepend contains=@cfExpressionCluster,cfSetLHSRegion,cfSetTagEnd,cfString
 syn region	cfSetLHSRegion		contained start="<cfreturn" start="<cfelseif" start="<cfif" start="<cfset" end="." keepend contains=cfTagName,htmlTag
 syn match	cfSetTagEnd		contained '>'
+syn match	cfSetTagEnd		contained '/>'
 
 " CF comments: similar to SGML comments, but can be nested.
 syn region	cfComment		start='<!---' end='--->' contains=cfCommentTodo,cfComment
