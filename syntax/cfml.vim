@@ -418,8 +418,8 @@ CfHiLink cfTagName		cfTagName
 CfHiLink cfCustomTagName	cfTagName
 CfHiLink cfArg			Type
 CfHiLink cfFunctionName		Function
-CfHiLink cfHashRegion		PreProc
-CfHiLink cfHash             Special
+CfHiLink cfHashRegion		Special
+CfHiLink cfHash             PreProc
 CfHiLink cfComment		Comment
 CfHiLink cfCommentTodo		Todo
 CfHiLink cfOperator		Operator
