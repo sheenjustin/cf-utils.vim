@@ -351,8 +351,8 @@ syn cluster	cfExpressionCluster	contains=cfFunctionName,cfScope,@cfOperatorClust
 
 " Evaluation; skip strings ( this helps with cases like nested IIf() )
 "		containedin to add to the TOP of cfOutputRegion.
-syn match	cfHashRegion	"L\=#[^#]\+#" contained containedin=cfOutputRegion contains=@cfExpressionCluster,htmlString
-
+syn match    cfHashRegion    "L\=#[^#]\+#" contained containedin=cfOutputRegion,cfHash contains=@cfExpressionCluster,htmlString
+syn match    cfHash          "#" contained contains=cfHashRegion
 " Test: Which is better?
 " syn region	cfHashRegion		start=+#+ skip=+"[^"]*"\|'[^']*'+ end=+#+ contained containedin=cfOutputRegion contains=@cfExpressionCluster,cfScriptParenError
 
