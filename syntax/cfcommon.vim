@@ -1,5 +1,5 @@
 " Common file of tags, functions and arugments for both cfml and cfscript syntax definitions
-	
+
 " Scopes and keywords.
 syn keyword cfScope contained cgi cffile cookie request caller this thistag
 syn keyword cfScope contained cfcatch variables application server session client form url local
@@ -324,4 +324,6 @@ syn keyword cfDeprecatedFunction    contained GetK2ServerDocCount GetK2ServerDoc
 syn keyword cfDeprecatedFunction    contained IsK2ServerABroker IsK2ServerDocCountExceeded IsK2ServerOnline
 syn keyword cfDeprecatedFunction    contained ParameterExists AuthenticatedContext AuthenticatedUser
 syn keyword cfDeprecatedFunction    contained isAuthenticated isAuthorized isProtected SetLocale
-syn keyword cfDeprecatedArg     contained docBoost fieldBoost imgStyle grooveColor refreshLabel tickmarklabels tickmarkmajor tickmarkminor tickmarkimages 
+syn keyword cfDeprecatedArg     contained docBoost fieldBoost imgStyle grooveColor refreshLabel tickmarklabels tickmarkmajor tickmarkminor tickmarkimages
+
+syn cluster	cfExpressionCluster	contains=cfFunctionName,cfScope,@cfOperatorCluster,cfBool,cfComment

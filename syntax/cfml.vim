@@ -37,15 +37,14 @@ syn sync	fromstart
 syn sync	maxlines=200
 syn case	ignore
 
-"moved keyword definitions for modularity
-syn include @cfkeywords syntax/cfkeywords.vim
+"moved keyword definitions and other common syntax definitions for modularity
+syn include @cfcommon syntax/cfcommon.vim
 
 " Add to the HTML clusters.
 syn cluster	htmlTagNameCluster	add=cfTagName,cfCustomTagName,cfDeprecatedTag
 syn cluster	htmlArgCluster		add=cfArg,cfHashRegion,cfScope,cfDeprecatedArg
 syn cluster	htmlPreproc			add=cfHashRegion
 
-syn cluster	cfExpressionCluster	contains=cfFunctionName,cfScope,@cfOperatorCluster,cfBool,cfComment
 
 
 " CF comments: similar to SGML comments, but can be nested.  
@@ -62,15 +61,15 @@ syn region	cfSetRegion		start="<cfset\_[^>]*>"	start="<cfreturn\_[^>]*>"	start="
 syn region	cfSetLHSRegion	start="<cfset"			start="<cfreturn" 			start="<cfelseif" 			start="<cfif" 			end="."	extend	keepend	contained	contains=cfTagName,htmlTag
 
 " Important too mark strings as extend so that they take precedent of everything except cfHashRegion
-syn region  cfString		start=+"+ skip=+\\"+ end=+"+ containedin=cfSetRegion extend keepend contained contains=cfHashRegion
-syn region  cfString		start=+'+ skip=+\\'+ end=+'+ containedin=cfSetRegion extend keepend contained contains=cfHashRegion
+syn region  cfString		start=+"+ end=+"+ containedin=cfSetRegion extend keepend contains=cfHashRegion
+syn region  cfString		start=+'+ end=+'+ containedin=cfSetRegion extend keepend contains=cfHashRegion
 
 " Hashmarks are significant inside cfoutput tags.
 syn region	cfHashRegion	start="#" end="#" extend containedin=cfOutputRegion,cfSetRegion,cfString contains=@cfExpressionCluster
 
 " CFscript 
 syn include @cfscript		syntax/cfscript.vim
-syn region	cfscriptBlock	start=+<cfscript\_[^>]*>+ end=+</cfscript>+me=s-1 keepend matchgroup=NONE contains=@cfscript,cfComment,cfHashRegion,@htmlTagNameCluster
+syn region	cfscriptBlock	start=+<cfscript\_[^>]*>+ end=+</cfscript>+me=s-1 keepend matchgroup=NONE contains=@cfscript,cfComment,cfHashRegion,@cfExpressionCluster,@htmlTagNameCluster
 
 syn match	cfSetTagEnd		'>'		contained
 syn match	cfSetTagEnd		'/>'	contained
@@ -129,5 +128,5 @@ CfHiLink cfDeprecatedFunction	Error
 delcommand CfHiLink
 
 if !exists('b:current_syntax')
-	let b:current_syntex = 'cfml'
+	let b:current_syntax = 'cfml'
 endif

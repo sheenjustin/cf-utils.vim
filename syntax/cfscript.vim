@@ -9,7 +9,10 @@
 " endif
 
 syn case ignore
-syn include @cfkeywords syntax/cfkeywords.vim
+syn include @cfcommon syntax/cfcommon.vim
+
+
+syn region	cfscriptBlock	start="{" end="}" keepend matchgroup=NONE contains=TOP
 
 
 " Comments
@@ -22,20 +25,20 @@ syn region  cfComment       start="/\*" end="\*/" contains=cfCommentTodo,cfJavaD
 
 
 " Definitions
-syn keyword cfComponent     component
-syn keyword cfFunction	    function
-syn match	  cfBraces	      "[{}\[\]]"
-syn match	  cfParens	      "[()]"
-syn keyword cfFunctionScope public private protected package
-syn keyword cfType          any array binary boolean component date
-syn keyword cfType          guid numeric query string struct uuid
-syn keyword cfType          void xml
+syn keyword	cfComponent     component
+syn keyword	cfFunction	    function
+syn match	cfBraces	      "[{}\[\]]"
+syn match	cfParens	      "[()]"
+syn keyword	cfFunctionScope public private protected package
+syn keyword	cfType          any array binary boolean component date
+syn keyword	cfType          guid numeric query string struct uuid
+syn keyword	cfType          void xml
 
 " Statements
 syn keyword cfStatement     return var
 
 " Strings
-syn region  cfHash          contained start=+#+ end=+#+
+syn region  cfHash          contained start=+#+ end=+#+ contains=@cfExpressionCluster
 syn region  cfStringD       start=+"+ end=+"+ contains=cfHash
 syn region  cfStringS       start=+'+ end=+'+ contains=cfHash
 syn keyword cfBoolean       true false
@@ -56,44 +59,44 @@ syn keyword cfLoop          for do while
 command -nargs=+ CfHiLink hi def link <args>
 
 " Comments
-CfHiLink cfComment        comment
-CfHiLink cfLineComment    comment
-CfHiLink cfCommentTodo    Todo
+CfHiLink cfComment			comment
+CfHiLink cfLineComment		comment
+CfHiLink cfCommentTodo		Todo
 " JavaDoc syntax
-CfHiLink cfJavaDocAttr    StorageClass
-CfHiLink cfJavaDocVal     Function
+CfHiLink cfJavaDocAttr		StorageClass
+CfHiLink cfJavaDocVal		Function
 
 " Definitions
-CfHiLink cfComponent      StorageClass
-CfHiLink cfFunction       Function
-CfHiLink cfBraces         Function
-CfHiLink cfType           Type
+CfHiLink cfComponent		StorageClass
+CfHiLink cfFunction			Function
+CfHiLink cfBraces			Function
+CfHiLink cfType				Type
 
 " Statements
-CfHiLink cfStatement      Statement
+CfHiLink cfStatement		Statement
 
 
 " Strings
-CfHiLink cfStringD        String
-CfHiLink cfStringS        String
-CfHiLink cfHash           PreProc
-CfHiLink cfBoolean        Boolean
+CfHiLink cfStringD			String
+CfHiLink cfStringS			String
+CfHiLink cfHash				Special
+CfHiLink cfBoolean			Boolean
 
 " Scopes
-CfHiLink cfScope          Keyword
+CfHiLink cfScope			Keyword
 
 " Conditional
-CfHiLink cfCondition      Conditional
+CfHiLink cfCondition		Conditional
 " Loop
-CfHiLink cfLoop           Conditional
+CfHiLink cfLoop				Conditional
 
 " CF Functions
-CfHiLink cfFunctions      Function
-CfHiLink cfFunctionScope  StorageClass
+CfHiLink cfFunctionName		Function
+CfHiLink cfFunctionScope	StorageClass
 
 " Operators
-CfHiLink cfOperator        Operator
-CfHiLink cfOperatorMatch   Operator
+CfHiLink cfOperator			Operator
+CfHiLink cfOperatorMatch	Operator
 CfHiLink cfOperatorCluster	Operator
 
 delcommand CfHiLink
