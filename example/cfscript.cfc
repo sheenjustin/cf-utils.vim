@@ -4,10 +4,12 @@ component {
     var thisval = "This Value";
     Variables.somevar = Arguments.arg;
     
-    if( Arguments.arg IS 'mystring' ) {
+	var htmlString = "<br /> <p>#test#</P><br/>"; var variables.thisvar="new statement on same line";
+	if( Arguments.arg IS 'mystring' ) {
       Arguments.arg = '#thisval# mystring';
     } else if( Arguments.arg is true ) {
       Arguments.arg = false;
+
     return this;
   }
 
