@@ -36,8 +36,8 @@
 
 <!--- Configure dynamic attribute variables. ---> 
 
-<cfset testaddhtmlstring = "<p>testing string \" ' asdf </p>" />
-<cfset testaddhtmlstring = '<p>testing string \' "asdf </p>' />
+<cfset testaddhtmlstring = "<p>testing string "" ' asdf </p>" />
+<cfset testaddhtmlstring = '<p>testing string '' "asdf </p>' />
 <cfparam name="theURL" default="http://www.adobe.com"> 
 <cfparam name="resolveURL" default="yes"> 
 
