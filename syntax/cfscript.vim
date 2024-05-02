@@ -33,14 +33,12 @@ syn cluster cfComponentCluster contains=cfComponent,cfFunction,cfFunctionName,cf
 
 " Statements
 syn keyword cfStatement     return var
-
 " Conditionals
 syn keyword cfCondition     if else switch case
-
 " Loops
 syn keyword cfLoop          for do while
 
-syn cluster cfCluster contains=cfStatement,cfHash,cfString,cfScope,cfCondition,cfLoop
+syn cluster cfCluster contains=cfStatement,cfString,cfScope,cfCondition,cfLoop
 
 syn region	cfscriptBlock	    start="{" end="}"   contains=@cfExpressionCluster,@cfCluster,@cfCommentCluster,@cfComponentCluster
 

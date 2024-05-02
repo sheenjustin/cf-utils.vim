@@ -72,7 +72,8 @@
     Variables.qry = new Query(); 
     qry.setDatasource("test"); 
     qry.setSQL("delete from art where artid=62"); 
-    qry.execute(); 
+	qry.execute(); 
+	#Len(Variables.qry)#
     TRANSACTION action="begin" {
     writeoutput("Transaction in cfscript test"); 
     TRANSACTION action="begin" { 
