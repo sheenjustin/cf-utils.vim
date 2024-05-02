@@ -1,10 +1,7 @@
 " Common file of tags, functions and arugments for both cfml and cfscript syntax definitions
 
 " Scopes and keywords.
-syn keyword cfScope contained cgi cffile cookie request caller this thistag
-syn keyword cfScope contained cfcatch variables application server session client form url local
-syn keyword cfScope contained arguments super cfhttp attributes error
-syn keyword cfBool  contained yes no true false
+
 
 " Operator strings.
 " ColdFusion <=7:
@@ -327,3 +324,15 @@ syn keyword cfDeprecatedFunction    contained isAuthenticated isAuthorized isPro
 syn keyword cfDeprecatedArg     contained docBoost fieldBoost imgStyle grooveColor refreshLabel tickmarklabels tickmarkmajor tickmarkminor tickmarkimages
 
 syn cluster	cfExpressionCluster	contains=cfFunctionName,cfScope,@cfOperatorCluster,cfBool,cfComment
+
+" Brought Scopes further down so they take priority over cfarg
+syn keyword cfScope contained cgi cffile cookie request caller this thistag
+syn keyword cfScope contained cfcatch variables application server session client form url local
+syn keyword cfScope contained arguments super cfhttp attributes error
+syn keyword cfBool  contained yes no true false
+
+" Hashmarks are significant inside cfoutput tags.
+syn region	cfHashRegion	start="#" end="#" extend containedin=cfOutputRegion,cfSetRegion,cfString contains=@cfExpressionCluster
+" Important too mark strings as extend so that they take precedent of everything except cfHashRegion
+syn region  cfString		start=+"+ end=+"+ extend keepend contains=cfHashRegion
+syn region  cfString		start=+'+ end=+'+ extend keepend contains=cfHashRegion

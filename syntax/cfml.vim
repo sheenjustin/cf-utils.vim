@@ -60,16 +60,10 @@ syn region	cfOutputRegion	matchgroup=NONE transparent start=+<cfoutput>+ end=+</
 syn region	cfSetRegion		start="<cfset\_[^>]*>"	start="<cfreturn\_[^>]*>"	start="<cfelseif\_[^>]*>"	start="<cfif\_[^>]*>"	end='>'			keepend				contains=@cfExpressionCluster,cfSetRegion,cfSetLHSRegion,cfSetTagEnd,cfString,cfComment
 syn region	cfSetLHSRegion	start="<cfset"			start="<cfreturn" 			start="<cfelseif" 			start="<cfif" 			end="."	extend	keepend	contained	contains=cfTagName,htmlTag
 
-" Important too mark strings as extend so that they take precedent of everything except cfHashRegion
-syn region  cfString		start=+"+ end=+"+ containedin=cfSetRegion extend keepend contains=cfHashRegion
-syn region  cfString		start=+'+ end=+'+ containedin=cfSetRegion extend keepend contains=cfHashRegion
-
-" Hashmarks are significant inside cfoutput tags.
-syn region	cfHashRegion	start="#" end="#" extend containedin=cfOutputRegion,cfSetRegion,cfString contains=@cfExpressionCluster
 
 " CFscript 
 syn include @cfscript		syntax/cfscript.vim
-syn region	cfscriptBlock	start=+<cfscript\_[^>]*>+ end=+</cfscript>+me=s-1 keepend matchgroup=NONE contains=@cfscript,cfComment,cfHashRegion,@cfExpressionCluster,@htmlTagNameCluster
+syn region	cfscriptBlock	start=+<cfscript\_[^>]*>+ end=+</cfscript>+me=s-1 keepend matchgroup=NONE contains=@cfscript,cfComment,cfHashRegion,@cfExpressionCluster,@htmlTagNameCluster,@htmlArgCluster
 
 syn match	cfSetTagEnd		'>'		contained
 syn match	cfSetTagEnd		'/>'	contained

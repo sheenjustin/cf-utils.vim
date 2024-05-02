@@ -11,10 +11,6 @@
 syn case ignore
 syn include @cfcommon syntax/cfcommon.vim
 
-
-syn region	cfscriptBlock	start="{" end="}" keepend matchgroup=NONE contains=TOP
-
-
 " Comments
 syn keyword cfCommentTodo   contained TODO FIXME XXX TBD
 syn match   cfJavaDoc       contained /@\(.\| \)\+$/ contains=cfJavaDocAttr,cfJavaDocVal
@@ -22,7 +18,7 @@ syn match   cfJavaDocAttr   contained /@\([a-z]\)\+/
 syn match   cfJavaDocVal    contained / \(.\)+$/
 syn match   cfLineComment   /\/\/.*/ contains=cfCommentTodo,cfJavaDoc
 syn region  cfComment       start="/\*" end="\*/" contains=cfCommentTodo,cfJavaDoc
-
+syn cluster cfCommentCluster contains=cfCommentTodo,cfJavaDoc,cfJavaDocAttr,cfJavaDocVal,cfLineComment,cfComment
 
 " Definitions
 syn keyword	cfComponent     component
@@ -33,26 +29,20 @@ syn keyword	cfFunctionScope public private protected package
 syn keyword	cfType          any array binary boolean component date
 syn keyword	cfType          guid numeric query string struct uuid
 syn keyword	cfType          void xml
+syn cluster cfComponentCluster contains=cfComponent,cfFunction,cfFunctionName,cfArg,cfBraces,cfParens,cfFunctionScope,cfType
 
 " Statements
 syn keyword cfStatement     return var
 
-" Strings
-syn region  cfHash          contained start=+#+ end=+#+ contains=@cfExpressionCluster
-syn region  cfStringD       start=+"+ end=+"+ contains=cfHash
-syn region  cfStringS       start=+'+ end=+'+ contains=cfHash
-syn keyword cfBoolean       true false
-
-" Scopes
-syn keyword cfScope         application arguments attributes caller cgi client
-syn keyword cfScope         cookie flash form request server session this
-syn keyword cfScope         thread url variables
-
 " Conditionals
 syn keyword cfCondition     if else switch case
-syn keyword cfCondition     is gt gte lt lte not contains
+
 " Loops
 syn keyword cfLoop          for do while
+
+syn cluster cfCluster contains=cfStatement,cfHash,cfString,cfScope,cfCondition,cfLoop
+
+syn region	cfscriptBlock	    start="{" end="}"   contains=@cfExpressionCluster,@cfCluster,@cfCommentCluster,@cfComponentCluster
 
 
 " Define default highlighting
@@ -75,15 +65,12 @@ CfHiLink cfType				Type
 " Statements
 CfHiLink cfStatement		Statement
 
-
 " Strings
-CfHiLink cfStringD			String
-CfHiLink cfStringS			String
-CfHiLink cfHash				Special
-CfHiLink cfBoolean			Boolean
+CfHiLink cfString			String
+CfHiLink cfHashRegion		Special
+CfHiLink cfBool			    Boolean
 
 " Scopes
-CfHiLink cfScope			Keyword
 
 " Conditional
 CfHiLink cfCondition		Conditional
@@ -93,6 +80,7 @@ CfHiLink cfLoop				Conditional
 " CF Functions
 CfHiLink cfFunctionName		Function
 CfHiLink cfFunctionScope	StorageClass
+CfHiLink cfArg			    Type
 
 " Operators
 CfHiLink cfOperator			Operator
