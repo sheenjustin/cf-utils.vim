@@ -63,13 +63,6 @@ CfHiLink cfType				Type
 " Statements
 CfHiLink cfStatement		Statement
 
-" Strings
-CfHiLink cfString			String
-CfHiLink cfHashRegion		Special
-CfHiLink cfBool			    Boolean
-
-" Scopes
-
 " Conditional
 CfHiLink cfCondition		Conditional
 " Loop
@@ -84,6 +77,11 @@ CfHiLink cfArg			    Type
 CfHiLink cfOperator			Operator
 CfHiLink cfOperatorMatch	Operator
 CfHiLink cfOperatorCluster	Operator
+
+" Strings
+CfHiLink cfString			String
+CfHiLink cfHashRegion		Special
+CfHiLink cfBool			    Boolean
 
 delcommand CfHiLink
 

@@ -10,7 +10,7 @@
     #errormessage1# 
 </cfoutput> 
 --->
-
+<cfnotarealtag></cfnotarealtag>
 <cfoutput>
 	Hello #YourName#! <br>
 
@@ -21,7 +21,7 @@
 			<title>TEST</title>
 		</head>
 		<body>
-			<p>Test</p>
+			<p>Test param variables cgi #session.test#</p>
 			<form action="test.cfm" method="POST">
 			</form>
 			<!-- this is an html comment <cfset variables.test="#ListGetAt('1')#" /> #withcoldfusion# -->
@@ -47,7 +47,7 @@
 <cfset myArgs=StructNew() />
 <cfset myArgs.url="#Variables.theURL#"> 
 <!--- Include a user name and password only if they are available. ---> 
-<cfif IsDefined("username")> 
+<cfif IsDefined("username") and username is "test"> 
     <cfset myArgs.username="#username#"> 
 </cfif> 
 <cfif IsDefined("password")>

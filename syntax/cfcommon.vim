@@ -328,11 +328,11 @@ syn cluster	cfExpressionCluster	contains=cfFunctionName,cfScope,@cfOperatorClust
 " Brought Scopes further down so they take priority over cfarg
 syn keyword cfScope contained cgi cffile cookie request caller this thistag
 syn keyword cfScope contained cfcatch variables application server session client form url local
-syn keyword cfScope contained arguments super cfhttp attributes error
+syn keyword cfScope contained arguments super cfhttp attributes error param
 syn keyword cfBool  contained yes no true false
 
 " Hashmarks are significant inside cfoutput tags.
 syn region	cfHashRegion	start="#" end="#" extend containedin=cfOutputRegion,cfSetRegion,cfString contains=@cfExpressionCluster
 " Important too mark strings as extend so that they take precedent of everything except cfHashRegion
-syn region  cfString		start=+"+ end=+"+ extend keepend contains=cfHashRegion
-syn region  cfString		start=+'+ end=+'+ extend keepend contains=cfHashRegion
+syn region  cfString		start=+"+ end=+"+ extend contains=cfHashRegion
+syn region  cfString		start=+'+ end=+'+ extend contains=cfHashRegion

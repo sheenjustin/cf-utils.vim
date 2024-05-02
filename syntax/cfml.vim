@@ -63,7 +63,7 @@ syn region	cfSetLHSRegion	start="<cfset"			start="<cfreturn" 			start="<cfelseif
 
 " CFscript 
 syn include @cfscript		syntax/cfscript.vim
-syn region	cfscriptBlock	start=+<cfscript\_[^>]*>+ end=+</cfscript>+me=s-1 keepend matchgroup=NONE contains=@cfscript,cfComment,cfHashRegion,@cfExpressionCluster,@htmlTagNameCluster,@htmlArgCluster
+syn region	cfscriptBlock	start=+<cfscript\_[^>]*>+ end=+</cfscript>+me=s-1 keepend matchgroup=NONE contains=@cfscript,cfComment,cfHashRegion,@cfExpressionCluster,@htmlTagNameCluster,@htmlArgCluster,cfString
 
 syn match	cfSetTagEnd		'>'		contained
 syn match	cfSetTagEnd		'/>'	contained
