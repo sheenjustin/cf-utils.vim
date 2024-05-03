@@ -86,7 +86,7 @@ syn keyword cfArg       contained completepath component condition connection co
 syn keyword cfArg       contained context contextbytes contexthighlightbegin
 syn keyword cfArg       contained contexthighlightend contextpassages cookiedomain criteria
 syn keyword cfArg       contained custom1 custom2 custom3 custom4 data dataalign
-syn keyword cfArg       contained databackgroundcolor dataCollection dataSource dayNames
+syn keyword cfArg       contained databackgroundcolor dataCollection datasource dayNames
 syn keyword cfArg       contained dbname dbserver dbtype dbvarname debug default delete
 syn keyword cfArg       contained deletebutton deletefile delimiter delimiters description
 syn keyword cfArg       contained destination detail directory disabled display displayName
@@ -189,6 +189,12 @@ syn keyword cfArg       contained indexLanguage produces rest restPath wsVersion
 " ColdFusion 11
 syn keyword cfArg       contained conformance evalAtPrint image isBase64 opacity pageHeight saveAsName showonprint
 " ColdFusion 2021
+
+" Separating out query and query param arguments here so they can be added back to cfquery tag
+syn keyword cfQueryArgs	contained name blockFactor cachedAfter cacheID cacheRegion cachedWithin disableAutoGenKeys 
+syn keyword cfQueryArgs	contained dataSource dbtype debug fetchClientInfo maxRows ormoptions password result timeout 
+syn keyword cfQueryArgs	contained username returnType resultSet 
+syn keyword cfParamArgs	contained CFSQLType maxLength null scale type value variable dbvarname
 
 
 " Functions.
@@ -323,16 +329,90 @@ syn keyword cfDeprecatedFunction    contained ParameterExists AuthenticatedConte
 syn keyword cfDeprecatedFunction    contained isAuthenticated isAuthorized isProtected SetLocale
 syn keyword cfDeprecatedArg     contained docBoost fieldBoost imgStyle grooveColor refreshLabel tickmarklabels tickmarkmajor tickmarkminor tickmarkimages
 
-syn cluster	cfExpressionCluster	contains=cfFunctionName,cfScope,@cfOperatorCluster,cfBool,cfComment
+syn match 	cfFunctionCall "\zs\(\k\w*\)*\s*\ze(" contained contains=cfFunctionName
+
+syn cluster	cfExpressionCluster	contains=cfFunctionCall,cfScope,@cfOperatorCluster,cfBool,cfComment
 
 " Brought Scopes further down so they take priority over cfarg
 syn keyword cfScope contained cgi cffile cookie request caller this thistag
 syn keyword cfScope contained cfcatch variables application server session client form url local
-syn keyword cfScope contained arguments super cfhttp attributes error param
+syn keyword cfScope contained arguments super cfhttp attributes error
 syn keyword cfBool  contained yes no true false
 
 " Hashmarks are significant inside cfoutput tags.
-syn region	cfHashRegion	start="#" end="#" extend containedin=cfOutputRegion,cfSetRegion,cfString contains=@cfExpressionCluster
+syn match   cfHash contained "#"
+syn region	cfHashRegion	start="#" end="#" keepend containedin=cfOutputRegion,cfSetRegion,cfString contains=@cfExpressionCluster,cfString,cfHash
 " Important too mark strings as extend so that they take precedent of everything except cfHashRegion
-syn region  cfString		start=+"+ end=+"+ extend contains=cfHashRegion
-syn region  cfString		start=+'+ end=+'+ extend contains=cfHashRegion
+syn region  cfString		start=+"+ end=+"+ extend contained contains=cfHashRegion
+syn region  cfString		start=+'+ end=+'+ extend contained contains=cfHashRegion
+
+" Define the highlighting.
+command -nargs=+ CfHiLink hi def link <args>
+
+if exists("d_noinclude_html")
+	" The default html-style highlighting copied from html.vim.
+	CfHiLink htmlTag			Function
+	CfHiLink htmlEndTag			Identifier
+	CfHiLink htmlArg			Type
+	CfHiLink htmlTagName		htmlStatement
+	CfHiLink htmlValue			String
+	CfHiLink htmlPreProc		PreProc
+	CfHiLink htmlString			String
+	CfHiLink htmlStatement		Statement
+	CfHiLink htmlValue			String
+	CfHiLink htmlTagError		htmlError
+	CfHiLink htmlError			Error
+	CfHiLink htmlComment		Comment
+endif
+
+CfHiLink cfCustomTagName		cfTagName
+CfHiLink cfTagName				Statement " from html.vim
+CfHiLink cfArg					Type
+CfHiLink cfQueryArgs			Type
+CfHiLink cfParamArgs			Type
+CfHiLink cfFunctionCall			Function
+
+" Comments
+CfHiLink cfComment				Comment
+CfHiLink cfLineComment			Comment
+CfHiLink cfCommentTodo			Todo
+" JavaDoc syntax
+CfHiLink cfJavaDocAttr			StorageClass
+CfHiLink cfJavaDocVal			Function
+
+" Errors
+CfHiLink cfDeprecatedTag		Error
+CfHiLink cfDeprecatedFunction	Error
+
+" Definitions
+CfHiLink cfComponent			StorageClass
+CfHiLink cfFunction				Function
+CfHiLink cfType					Type
+
+" Statements
+CfHiLink cfStatement			Statement
+
+" Conditional
+CfHiLink cfCondition			Conditional
+" Loop
+CfHiLink cfLoop					Conditional
+
+" CF Functions
+CfHiLink cfFunctionScope		StorageClass
+CfHiLink cfFunctionName			StorageClass
+
+" Operators
+CfHiLink cfOperator				Operator
+CfHiLink cfOperatorMatch		Operator
+CfHiLink cfOperatorCluster		Operator
+
+" Strings
+CfHiLink cfString				String
+CfHiLink cfHashRegion			Normal
+CfHiLink cfHash					Special
+CfHiLink cfBool					Boolean
+
+CfHiLink javaScript				Normal
+
+
+delcommand CfHiLink

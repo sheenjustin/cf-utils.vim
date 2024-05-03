@@ -1,5 +1,5 @@
 <!--- This is a ColdFusion Comment. Browsers do not receive it. --->
-
+<cfsetting showdebugoutput="Yes" />
 <cfset MyVar = var1 <!--- & var2 --->> 
 <cfoutput>#Dateformat(now() <!---, "dddd, mmmm yyyy" --->)#</cfoutput> 
 
@@ -19,9 +19,22 @@
 
 		<head>
 			<title>TEST</title>
+			<style>
+			##test {
+
+			}
+			p {
+
+			}
+
+			form[action="test.cfm"]{
+				
+			}
+			</style>
+
 		</head>
 		<body>
-			<p>Test param variables cgi #session.test#</p>
+			<p id="test">Test param variables cgi #session.test#</p>
 			<form action="test.cfm" method="POST">
 			</form>
 			<!-- this is an html comment <cfset variables.test="#ListGetAt('1')#" /> #withcoldfusion# -->
@@ -47,7 +60,7 @@
 <cfset myArgs=StructNew() />
 <cfset myArgs.url="#Variables.theURL#"> 
 <!--- Include a user name and password only if they are available. ---> 
-<cfif IsDefined("username") and username is "test"> 
+<cfif IsDefined("username") and username is "test" and test=true> 
     <cfset myArgs.username="#username#"> 
 </cfif> 
 <cfif IsDefined("password")>
@@ -55,13 +68,13 @@
 </cfif> 
 <cfset myArgs.resolveURL="#resolveURL#"> 
 <cfset myArgs.timeout="2"> 
-<cfset myArgs["resolveURL"] = "test"/>
+<cfset Variables.myArgs["resolveURL#i#"] = "test"/>
 <!--- Use the myArgs structure to specify the cfhttp tag attributes. ---> 
 <cfhttp attributeCollection="#myArgs#"> 
 <cfoutput> 
     #cfhttp.fileContent# 
 </cfoutput>
-<cfquery>
+<cfquery datasource="#db#">
 	select * from schema.tbl where tbl.column = 'asdf'
 </cfquery>
 <cfscript>
@@ -73,7 +86,7 @@
     qry.setDatasource("test"); 
     qry.setSQL("delete from art where artid=62"); 
 	qry.execute(); 
-	#Len(Variables.qry)#
+	Len(Variables.qry)
     TRANSACTION action="begin" {
     writeoutput("Transaction in cfscript test"); 
     TRANSACTION action="begin" { 

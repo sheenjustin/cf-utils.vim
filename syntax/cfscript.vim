@@ -9,7 +9,6 @@
 " endif
 
 syn case ignore
-syn include @cfcommon syntax/cfcommon.vim
 
 " Comments
 syn keyword cfCommentTodo   contained TODO FIXME XXX TBD
@@ -32,7 +31,8 @@ syn keyword	cfType          void xml
 syn cluster cfComponentCluster contains=cfComponent,cfFunction,cfFunctionName,cfArg,cfBraces,cfParens,cfFunctionScope,cfType
 
 " Statements
-syn keyword cfStatement     return var
+syn keyword cfStatement     return var transaction param abort
+
 " Conditionals
 syn keyword cfCondition     if else switch case
 " Loops
@@ -42,51 +42,9 @@ syn cluster cfCluster contains=cfStatement,cfString,cfScope,cfCondition,cfLoop
 
 syn region	cfscriptBlock	    start="{" end="}"   contains=@cfExpressionCluster,@cfCluster,@cfCommentCluster,@cfComponentCluster
 
+syn include @cfcommon syntax/cfcommon.vim
 
-" Define default highlighting
-command -nargs=+ CfHiLink hi def link <args>
-
-" Comments
-CfHiLink cfComment			comment
-CfHiLink cfLineComment		comment
-CfHiLink cfCommentTodo		Todo
-" JavaDoc syntax
-CfHiLink cfJavaDocAttr		StorageClass
-CfHiLink cfJavaDocVal		Function
-
-" Definitions
-CfHiLink cfComponent		StorageClass
-CfHiLink cfFunction			Function
-CfHiLink cfBraces			Function
-CfHiLink cfType				Type
-
-" Statements
-CfHiLink cfStatement		Statement
-
-" Conditional
-CfHiLink cfCondition		Conditional
-" Loop
-CfHiLink cfLoop				Conditional
-
-" CF Functions
-CfHiLink cfFunctionName		Function
-CfHiLink cfFunctionScope	StorageClass
-CfHiLink cfArg			    Type
-
-" Operators
-CfHiLink cfOperator			Operator
-CfHiLink cfOperatorMatch	Operator
-CfHiLink cfOperatorCluster	Operator
-
-" Strings
-CfHiLink cfString			String
-CfHiLink cfHashRegion		Special
-CfHiLink cfBool			    Boolean
-
-delcommand CfHiLink
-
-
-" Set the syntax
-" if !exists('b:current_syntax')
-"   let b:current_syntax = 'cfscript'
-" endif
+"Set the syntax
+if !exists('b:current_syntax')
+  let b:current_syntax = 'cfscript'
+endif
